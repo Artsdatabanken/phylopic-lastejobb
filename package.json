@@ -1,0 +1,19 @@
+{
+ "name": "phylopic-lastejobb",
+ "version": "1.0.0",
+ "description": "http://phylopic.org/api/a/image/list/0/10?options=taxa+string+credit+svgFile+pngFiles+licenseURL",
+ "main": "index.js",
+ "scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "download": "node index download",
+  "transform": "node index transform",
+  "build": "npm run download && npm run transform",
+  "deploy": "node index deploy"
+ },
+ "keywords": [],
+ "author": "",
+ "license": "ISC",
+ "dependencies": {
+  "lastejobb": "^2.14.1"
+ }
+}
