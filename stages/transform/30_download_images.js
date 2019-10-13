@@ -11,10 +11,11 @@ downloadNext();
 
 function downloadNext() {
   const e = metadata.pop();
+  if (!e) return;
   const url = baseUrl + e.url;
   const localPath = path.join(rootPath, e.local);
-  debugger;
-  if (fs.existsSync(localPath)) return;
+  const localFullPath = "./data/" + localPath;
+  if (fs.existsSync(localFullPath)) return;
   http.downloadBinary(url, localPath).then(x => {
     downloadNext();
   });
