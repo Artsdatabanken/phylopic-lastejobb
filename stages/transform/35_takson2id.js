@@ -1,22 +1,16 @@
 const { io, log } = require("lastejobb");
 
-const bilde = io.lesDatafil("20_bilde").items;
-const id2bilde = {};
-bilde.forEach(b => {
-  b.uid.forEach(uid => (id2bilde[uid] = b.local));
-});
-const takson2id = io.lesDatafil("10_takson");
+const phtaxon2id = lesPhyloTakson2id();
 const takson2kode = lesTakson2kode();
 
-const kode2bilde = [];
+const r = {};
 
-Object.keys(takson2id).forEach(name => {
-  const id = takson2id[name];
+phtaxon2id.forEach(e => {
+  const name = e.name;
   const kode = phyli2SciName(name);
   if (!kode) return;
-  const bildefil = id2bilde[id];
-  if (!bildefil) throw new Error("Mangler bilde for " + id);
-  kode2bilde.push({ kode, bildefil });
+  if (r[kode]) return;
+  r[kode] = e.uid;
 });
 
 function phyli2SciName(phyliName) {
@@ -30,6 +24,16 @@ function phyli2SciName(phyliName) {
   log.warn("No hit for " + phyliName);
 }
 
+function lesPhyloTakson2id() {
+  const takson2id = io.lesDatafil("10_takson");
+  const r = [];
+  Object.keys(takson2id).forEach(name => {
+    r.push({ name, uid: takson2id[name] });
+  });
+  r.sort((a, b) => (a.name.length < b.name.length ? -1 : 1));
+  return r;
+}
+
 function lesTakson2kode() {
   const r = {};
   const takson = io.lesDatafil("art-takson/type").items;
@@ -40,4 +44,4 @@ function lesTakson2kode() {
   return r;
 }
 
-io.skrivDatafil(__filename, kode2bilde);
+io.skrivDatafil(__filename, r);
