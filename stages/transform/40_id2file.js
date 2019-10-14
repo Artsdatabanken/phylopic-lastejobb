@@ -40,4 +40,4 @@ function lesTakson2kode() {
   return r;
 }
 
-io.skrivBuildfil(__filename, kode2bilde);
+io.skrivDatafil(__filename, kode2bilde);
