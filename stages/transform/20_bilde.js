@@ -9,7 +9,9 @@ metadata.forEach(e => {
   bilder.push({
     uid: [e.uid],
     url: beste.url,
-    local: e.uid + path.extname(beste.url)
+    local: e.uid + path.extname(beste.url),
+    licenseURL: e.licenseURL,
+    credit: e.credit
   });
 });
 
